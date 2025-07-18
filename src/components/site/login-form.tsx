@@ -41,6 +41,14 @@ export function LoginForm() {
   const [typedTitle, setTypedTitle] = useState('');
   const titleText = 'Welcome Back';
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
   useEffect(() => {
     if (typedTitle.length < titleText.length) {
       const timeoutId = setTimeout(() => {
