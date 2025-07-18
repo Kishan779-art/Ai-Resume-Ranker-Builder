@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -56,9 +57,26 @@ const pricingTiers = [
 export default function PricingPage() {
   const [isYearly, setIsYearly] = useState(false);
 
-  const FADE_IN_ANIMATION_VARIANTS = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+      },
+    },
   };
 
   return (
@@ -66,9 +84,9 @@ export default function PricingPage() {
         className="container mx-auto px-4 py-8"
         initial="hidden"
         animate="visible"
-        transition={{ staggerChildren: 0.2 }}
+        variants={containerVariants}
     >
-      <motion.div variants={FADE_IN_ANIMATION_VARIANTS}>
+      <motion.div variants={itemVariants}>
         <PageTitle
             title="Our Pricing"
             subtitle="Choose the plan that's right for you. Get a competitive edge in your job search today."
@@ -77,7 +95,7 @@ export default function PricingPage() {
       </motion.div>
       
 
-      <motion.div variants={FADE_IN_ANIMATION_VARIANTS} className="flex items-center justify-center space-x-2 mb-12">
+      <motion.div variants={itemVariants} className="flex items-center justify-center space-x-2 mb-12">
         <Label htmlFor="billing-cycle">Monthly</Label>
         <Switch
           id="billing-cycle"
@@ -91,10 +109,9 @@ export default function PricingPage() {
         {pricingTiers.map((tier, index) => (
             <motion.div
                 key={tier.name}
-                variants={FADE_IN_ANIMATION_VARIANTS}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                variants={itemVariants}
             >
-                <Card className={`flex flex-col h-full neon-glow ${tier.variant === 'default' ? 'border-primary shadow-lg shadow-primary/20' : ''}`}>
+                <Card className={`flex flex-col h-full bg-card/50 backdrop-blur-sm border-border/20 neon-glow ${tier.variant === 'default' ? 'border-primary shadow-lg shadow-primary/20' : ''}`}>
                     <CardHeader>
                         <CardTitle className="font-headline">{tier.name}</CardTitle>
                         <CardDescription>{tier.description}</CardDescription>

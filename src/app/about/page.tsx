@@ -116,7 +116,7 @@ export default function AboutPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <Avatar className="h-24 w-24 mx-auto mb-4 border-2 border-primary/50">
+              <Avatar className="h-24 w-24 mx-auto mb-4 border-2 border-primary/50 neon-glow">
                 <AvatarImage src="https://github.com/shadcn.png" alt="Kishan Patel" />
                 <AvatarFallback>KP</AvatarFallback>
               </Avatar>
