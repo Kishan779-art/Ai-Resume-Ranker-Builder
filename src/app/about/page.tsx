@@ -1,3 +1,5 @@
+
+'use client';
 import { PageTitle } from '@/components/site/page-title';
 import {
   Card,
@@ -20,7 +22,7 @@ export default function AboutPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-8">
-          <Card>
+          <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
             <CardHeader>
               <CardTitle className="font-headline flex items-center gap-2">
                 <Rocket className="text-primary" />
@@ -43,7 +45,7 @@ export default function AboutPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
             <CardHeader>
               <CardTitle className="font-headline flex items-center gap-2">
                 <Milestone className="text-primary" />
@@ -69,7 +71,7 @@ export default function AboutPage() {
         </div>
 
         <div className="space-y-8">
-          <Card>
+          <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
             <CardHeader>
               <CardTitle className="font-headline flex items-center gap-2">
                 <User className="text-primary" />
@@ -77,7 +79,7 @@ export default function AboutPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <Avatar className="h-24 w-24 mx-auto mb-4">
+              <Avatar className="h-24 w-24 mx-auto mb-4 border-2 border-primary/50">
                 <AvatarImage src="https://github.com/shadcn.png" alt="Kishan Patel" />
                 <AvatarFallback>KP</AvatarFallback>
               </Avatar>
