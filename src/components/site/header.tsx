@@ -28,14 +28,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center mx-auto px-4">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Bolt className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline sm:inline-block">
-            Bolt Resume AI
-          </span>
-        </Link>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          {navItems.map((item) => (
+        <div className="mr-4 hidden md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Bolt className="h-6 w-6 text-primary" />
+            <span className="font-bold font-headline">
+              Bolt Resume AI
+            </span>
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
@@ -44,15 +45,26 @@ export function Header() {
               {item.name}
             </Link>
           ))}
-        </nav>
+          </nav>
+        </div>
+        
+        {/* Mobile View */}
+        <div className="md:hidden flex-1">
+          <Link href="/" className="flex items-center space-x-2">
+            <Bolt className="h-6 w-6 text-primary" />
+            <span className="font-bold font-headline">Bolt Resume AI</span>
+          </Link>
+        </div>
+
+
         <div className="flex flex-1 items-center justify-end space-x-2">
           {isAuthenticated ? (
-            <Button onClick={handleLogout} variant="outline">
+            <Button onClick={handleLogout} variant="outline" className="hidden md:flex">
               Logout
               <LogOut className="ml-2" />
             </Button>
           ) : (
-            <Button asChild>
+            <Button asChild className="hidden md:flex">
               <Link href="/login">
                 Login
                 <LogIn className="ml-2" />
@@ -61,6 +73,7 @@ export function Header() {
           )}
 
           <ThemeToggle />
+
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -85,12 +98,12 @@ export function Header() {
                     </Link>
                   ))}
                    {isAuthenticated ? (
-                     <button onClick={handleLogout} className="transition-colors hover:text-primary text-left">
-                      Logout
+                     <button onClick={handleLogout} className="transition-colors hover:text-primary text-left flex items-center">
+                      Logout <LogOut className="ml-2"/>
                     </button>
                   ) : (
-                    <Link href="/login" className="transition-colors hover:text-primary">
-                      Login
+                    <Link href="/login" className="transition-colors hover:text-primary flex items-center">
+                      Login <LogIn className="ml-2"/>
                     </Link>
                   )}
                 </nav>
