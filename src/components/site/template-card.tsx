@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,12 +8,13 @@ type TemplateCardProps = {
   name: string;
   imageUrl: string;
   category: string;
+  hint?: string;
 };
 
-export function TemplateCard({ name, imageUrl, category }: TemplateCardProps) {
+export function TemplateCard({ name, imageUrl, category, hint }: TemplateCardProps) {
   return (
     <div className="group rounded-lg perspective-1000 h-full">
-      <Card className="relative transform-style-3d transition-transform duration-700 group-hover:rotate-y-180 h-full w-full bg-card/50 backdrop-blur-sm border-border/20">
+      <Card className="relative transform-style-3d transition-transform duration-700 group-hover:rotate-y-180 h-full w-full bg-card/50 backdrop-blur-sm border-border/20 neon-glow">
         {/* Front Face */}
         <div className="absolute w-full h-full backface-hidden">
           <Image
@@ -21,7 +23,7 @@ export function TemplateCard({ name, imageUrl, category }: TemplateCardProps) {
             width={400}
             height={565}
             className="rounded-lg object-cover w-full h-full"
-            data-ai-hint="resume professional"
+            data-ai-hint={hint}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent rounded-lg" />
           <div className="absolute bottom-0 left-0 p-4">
