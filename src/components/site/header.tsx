@@ -28,8 +28,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center mx-auto px-4">
-        <div className="mr-4 hidden md:flex">
-          <Link href={isAuthenticated ? "/dashboard" : "/"} className="mr-6 flex items-center space-x-2">
+        <div className="mr-4 hidden md:flex items-center">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
             <Bolt className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline">
               Bolt Resume AI
@@ -56,7 +56,7 @@ export function Header() {
         
         {/* Mobile View */}
         <div className="md:hidden flex-1">
-          <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <Bolt className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline">Bolt Resume AI</span>
           </Link>
@@ -90,7 +90,7 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <nav className="grid gap-6 text-lg font-medium mt-12">
-                  <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2 mb-4">
+                  <Link href="/" className="flex items-center space-x-2 mb-4">
                      <Bolt className="h-6 w-6 text-primary" />
                     <span className="font-bold font-headline">Bolt Resume AI</span>
                   </Link>
@@ -127,5 +127,3 @@ export function Header() {
     </header>
   );
 }
-
-    
