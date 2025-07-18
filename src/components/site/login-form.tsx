@@ -25,6 +25,7 @@ import { Loader2, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/auth-context';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -36,6 +37,7 @@ const formSchema = z.object({
 export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [typedTitle, setTypedTitle] = useState('');
@@ -73,6 +75,7 @@ export function LoginForm() {
     setTimeout(() => {
       setIsLoading(false);
       setIsSuccess(true);
+      login(values.email);
       toast({
         title: 'Login Successful!',
         description: `Welcome back, ${values.email}`,

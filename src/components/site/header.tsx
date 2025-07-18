@@ -1,10 +1,22 @@
+
+'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Bolt, Menu, LogIn } from 'lucide-react';
+import { Bolt, Menu, LogIn, LogOut } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
+import { useAuth } from '@/contexts/auth-context';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
   const navItems = [
     { name: 'Ranker', href: '/ranker' },
     { name: 'Builder', href: '/builder' },
@@ -34,12 +46,20 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <Button asChild>
-            <Link href="/login">
-              Login
-              <LogIn className="ml-2" />
-            </Link>
-          </Button>
+          {isAuthenticated ? (
+            <Button onClick={handleLogout} variant="outline">
+              Logout
+              <LogOut className="ml-2" />
+            </Button>
+          ) : (
+            <Button asChild>
+              <Link href="/login">
+                Login
+                <LogIn className="ml-2" />
+              </Link>
+            </Button>
+          )}
+
           <ThemeToggle />
           <div className="md:hidden">
             <Sheet>
@@ -64,9 +84,15 @@ export function Header() {
                       {item.name}
                     </Link>
                   ))}
-                   <Link href="/login" className="transition-colors hover:text-primary">
-                    Login
-                  </Link>
+                   {isAuthenticated ? (
+                     <button onClick={handleLogout} className="transition-colors hover:text-primary text-left">
+                      Logout
+                    </button>
+                  ) : (
+                    <Link href="/login" className="transition-colors hover:text-primary">
+                      Login
+                    </Link>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
