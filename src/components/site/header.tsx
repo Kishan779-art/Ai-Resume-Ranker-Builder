@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Bolt, Menu, LogIn, LogOut } from 'lucide-react';
+import { Bolt, Menu, LogIn, LogOut, LayoutDashboard } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
@@ -29,13 +29,19 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center mx-auto px-4">
         <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Link href={isAuthenticated ? "/dashboard" : "/"} className="mr-6 flex items-center space-x-2">
             <Bolt className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline">
               Bolt Resume AI
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
+            {isAuthenticated && (
+                <Link href="/dashboard" className="transition-colors hover:text-primary flex items-center gap-1 font-semibold text-primary">
+                    <LayoutDashboard className="h-4 w-4"/>
+                    Dashboard
+                </Link>
+            )}
             {navItems.map((item) => (
             <Link
               key={item.name}
@@ -50,7 +56,7 @@ export function Header() {
         
         {/* Mobile View */}
         <div className="md:hidden flex-1">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
             <Bolt className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline">Bolt Resume AI</span>
           </Link>
@@ -84,10 +90,16 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <nav className="grid gap-6 text-lg font-medium mt-12">
-                  <Link href="/" className="flex items-center space-x-2 mb-4">
+                  <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2 mb-4">
                      <Bolt className="h-6 w-6 text-primary" />
                     <span className="font-bold font-headline">Bolt Resume AI</span>
                   </Link>
+                   {isAuthenticated && (
+                     <Link href="/dashboard" className="transition-colors hover:text-primary flex items-center font-semibold text-primary">
+                        <LayoutDashboard className="mr-2"/>
+                        Dashboard
+                    </Link>
+                   )}
                   {navItems.map((item) => (
                     <Link
                       key={item.name}
@@ -115,3 +127,5 @@ export function Header() {
     </header>
   );
 }
+
+    

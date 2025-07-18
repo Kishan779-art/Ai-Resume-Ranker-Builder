@@ -63,7 +63,7 @@ export function LoginForm() {
   useEffect(() => {
     if (isSuccess) {
       const timer = setTimeout(() => {
-        router.push('/');
+        router.push('/dashboard');
       }, 2500); // Wait for the success animation/message to show
       return () => clearTimeout(timer);
     }
@@ -197,3 +197,5 @@ export function LoginForm() {
     </AnimatePresence>
   );
 }
+
+    
