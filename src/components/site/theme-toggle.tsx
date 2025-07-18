@@ -6,35 +6,34 @@ import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  // Default to light and let the effect run to set the correct theme
   const [theme, setTheme] = useState('light'); 
 
   useEffect(() => {
-    setMounted(true);
+    // This effect runs once on mount to set the initial theme
     const storedTheme = localStorage.getItem('theme');
-    if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
-      setTheme(storedTheme);
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+        setTheme(storedTheme);
     } else {
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         setTheme(systemTheme);
     }
+    setMounted(true);
   }, []);
 
   useEffect(() => {
+    // This effect runs whenever the theme state changes
     if (mounted) {
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
-        document.documentElement.style.colorScheme = 'dark';
       } else {
         document.documentElement.classList.remove('dark');
-        document.documentElement.style.colorScheme = 'light';
       }
       localStorage.setItem('theme', theme);
     }
   }, [theme, mounted]);
 
   if (!mounted) {
-    // Render a disabled button placeholder to prevent layout shift
+    // Render a disabled button placeholder to prevent layout shift and FOUC
     return <Button variant="ghost" size="icon" disabled className="h-9 w-9" />;
   }
 

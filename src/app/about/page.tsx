@@ -18,7 +18,7 @@ export default function AboutPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -54,7 +54,7 @@ export default function AboutPage() {
         className="grid grid-cols-1 md:grid-cols-3 gap-8"
         variants={containerVariants}
       >
-        <motion.div className="md:col-span-2 space-y-8" variants={containerVariants}>
+        <motion.div className="md:col-span-2 space-y-8">
           <motion.div variants={itemVariants}>
             <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 neon-glow">
               <CardHeader>
