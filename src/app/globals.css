@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 224 71% 4%;
     --card: 0 0% 100%;
     --card-foreground: 224 71% 4%;
@@ -111,6 +111,17 @@
     background-size: 200% 200%;
     animation: gradient-pan 15s ease infinite;
   }
+  
+  :not(.dark) .animated-gradient-bg {
+    background: linear-gradient(
+      45deg,
+      hsl(var(--background)),
+      hsl(240, 100%, 98%),
+      hsl(var(--background))
+    );
+    background-size: 200% 200%;
+    animation: gradient-pan 15s ease infinite;
+  }
 
   @keyframes gradient-pan {
     0% {
@@ -138,6 +149,14 @@
     opacity: 0.5;
   }
 
+ :not(.dark) .particles-bg {
+    background-image:
+      radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.15) 1px, transparent 1px),
+      radial-gradient(circle at 70% 80%, hsl(var(--secondary) / 0.15) 1px, transparent 1px);
+    opacity: 0.7;
+  }
+
+
   @keyframes drift {
     0% {
       background-position: 0 0, 0 0;
@@ -163,5 +182,9 @@
   }
   .neon-glow:hover::after {
     opacity: 0.5;
+  }
+  
+  :not(.dark) .neon-glow:hover::after {
+    opacity: 0.3;
   }
 }
