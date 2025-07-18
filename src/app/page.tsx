@@ -68,6 +68,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden animated-gradient-bg py-20 md:py-0">
+         <div className="absolute inset-0 particles-bg"></div>
          <div
           className="absolute inset-0 bg-grid opacity-20"
           style={{
@@ -118,14 +119,20 @@ export default function Home() {
 
       <section className="py-20 md:py-32 w-full">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ staggerChildren: 0.2 }}
+          >
+            <motion.h2 variants={FADE_IN_ANIMATION_VARIANTS} className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
               Why Choose Bolt Resume AI?
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p variants={FADE_IN_ANIMATION_VARIANTS} className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
               A comprehensive suite of tools designed to give you a competitive edge and accelerate your job search. Everything you need to land the job of your dreams.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
             {features.map((feature, index) => (
                <motion.div
@@ -137,7 +144,7 @@ export default function Home() {
                 viewport={{ once: true }}
               >
               <Card
-                className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
+                className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full neon-glow"
               >
                 <CardHeader className="flex flex-row items-center gap-4">
                   {feature.icon}

@@ -56,7 +56,7 @@ export default function AboutPage() {
       >
         <motion.div className="md:col-span-2 space-y-8" variants={containerVariants}>
           <motion.div variants={itemVariants}>
-            <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
+            <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 neon-glow">
               <CardHeader>
                 <CardTitle className="font-headline flex items-center gap-2">
                   <Rocket className="text-primary" />
@@ -81,7 +81,7 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
+            <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 neon-glow">
               <CardHeader>
                 <CardTitle className="font-headline flex items-center gap-2">
                   <Milestone className="text-primary" />
@@ -108,7 +108,7 @@ export default function AboutPage() {
         </motion.div>
 
         <motion.div className="space-y-8" variants={itemVariants}>
-          <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2">
+          <Card className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 neon-glow">
             <CardHeader>
               <CardTitle className="font-headline flex items-center gap-2">
                 <User className="text-primary" />
