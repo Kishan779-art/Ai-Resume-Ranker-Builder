@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -60,8 +61,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="w-full">
-      <section className="relative h-[90vh] flex items-center justify-center text-center overflow-hidden animated-gradient-bg">
+    <div className="w-full text-center">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden animated-gradient-bg">
         <div
           className="absolute inset-0 bg-grid opacity-20"
           style={{
@@ -109,7 +110,7 @@ export default function Home() {
               Everything you need to get the job of your dreams.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
             {features.map((feature, index) => (
               <Card
                 key={index}
