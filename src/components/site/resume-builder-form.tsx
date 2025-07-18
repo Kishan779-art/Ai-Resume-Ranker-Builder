@@ -24,7 +24,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { suggestImprovementsAction } from '@/lib/actions';
 import type { AiResumeSuggestionsOutput } from '@/ai/flows/suggest-resume-improvements';
-import { Loader2, Sparkles, Lightbulb } from 'lucide-react';
+import { Loader2, Sparkles, Lightbulb, Wand2 } from 'lucide-react';
 import { Skeleton } from '../ui/skeleton';
 
 const formSchema = z.object({
