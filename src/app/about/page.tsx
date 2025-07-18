@@ -20,7 +20,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -87,7 +87,6 @@ export default function AboutPage() {
           />
         </motion.div>
 
-        {/* About Me Section */}
         <motion.div variants={itemVariants}>
           <Card className="max-w-3xl mx-auto mb-16 bg-card/50 backdrop-blur-sm border-border/20 neon-glow">
             <CardHeader className="text-center">
@@ -115,47 +114,42 @@ export default function AboutPage() {
           </Card>
         </motion.div>
 
-        {/* How to Use Timeline */}
         <motion.div variants={itemVariants} className="mb-16 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline tracking-tight">How It Works</h2>
-            <p className="mt-2 text-lg text-muted-foreground">A simple, powerful process to optimize your resume.</p>
+          <h2 className="text-3xl md:text-4xl font-bold font-headline tracking-tight">How It Works</h2>
+          <p className="mt-2 text-lg text-muted-foreground">A simple, powerful process to optimize your resume.</p>
         </motion.div>
         
         <div className="relative">
-            {/* Timeline Line */}
-             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 hidden md:block"></div>
-
-            {timelineSteps.map((step, index) => (
-                <motion.div key={index} custom={index} variants={itemVariants} className="mb-8 flex justify-center md:justify-normal items-center w-full">
-                     <div className={`flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center w-full`}>
-                        <div className="hidden md:flex flex-1"></div>
-                        <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 bg-background border-2 border-primary rounded-full h-8 w-8 z-10 flex items-center justify-center font-bold">{index + 1}</div>
-
-                        <div className="flex-1">
-                             <motion.div 
-                                 whileHover={{ y: -5, transition: { type: 'spring', stiffness: 300 } }}
-                                 className={`md:w-10/12 ${index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'}`}
-                            >
-                                <Card className="bg-card/50 backdrop-blur-sm border-border/20 neon-glow h-full">
-                                    <CardHeader className="flex flex-row items-center gap-4">
-                                        {step.icon}
-                                        <CardTitle className="font-headline text-xl">
-                                            {step.title}
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-muted-foreground">
-                                            {step.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        </div>
-                    </div>
-                </motion.div>
-            ))}
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 hidden md:block"></div>
+          {timelineSteps.map((step, index) => (
+            <motion.div key={index} custom={index} variants={itemVariants} className="mb-8 flex justify-center md:justify-normal items-center w-full">
+              <div className={`flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center w-full`}>
+                <div className="hidden md:flex flex-1"></div>
+                <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 bg-background border-2 border-primary rounded-full h-8 w-8 z-10 flex items-center justify-center font-bold">{index + 1}</div>
+                <div className="flex-1">
+                  <motion.div 
+                    whileHover={{ y: -5, transition: { type: 'spring', stiffness: 300 } }}
+                    className={`md:w-10/12 ${index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'}`}
+                  >
+                    <Card className="bg-card/50 backdrop-blur-sm border-border/20 neon-glow h-full">
+                      <CardHeader className="flex flex-row items-center gap-4">
+                        {step.icon}
+                        <CardTitle className="font-headline text-xl">
+                          {step.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-muted-foreground">
+                          {step.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-
       </motion.div>
     </div>
   );
