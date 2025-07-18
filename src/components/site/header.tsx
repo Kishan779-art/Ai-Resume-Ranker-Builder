@@ -22,7 +22,6 @@ export function Header() {
     { name: 'Builder', href: '/builder' },
     { name: 'Templates', href: '/templates' },
     { name: 'Pricing', href: '/pricing' },
-    { name: 'About', href: '/about' },
   ];
 
   return (

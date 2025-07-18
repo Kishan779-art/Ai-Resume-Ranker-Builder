@@ -52,12 +52,6 @@ export default function Home() {
         'Our tools are designed to give you a competitive edge and accelerate your job search.',
       link: '/builder',
     },
-     {
-      icon: <MoveRight className="w-8 h-8 text-primary" />,
-      title: 'And Much More',
-      description: 'Explore all our features and see how we can help you land your dream job.',
-      link: '/about'
-    }
   ];
 
   const FADE_IN_ANIMATION_VARIANTS = {
