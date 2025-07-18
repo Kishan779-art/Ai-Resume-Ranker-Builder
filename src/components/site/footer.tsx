@@ -31,7 +31,8 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Bolt Resume AI. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Bolt Resume AI. All rights are owned by kishan patel.</p>
+          <p>Designed and developed by kishan patel.</p>
         </div>
       </div>
     </footer>
