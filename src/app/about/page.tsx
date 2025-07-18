@@ -122,7 +122,7 @@ export default function AboutPage() {
         <div className="relative">
           <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 hidden md:block"></div>
           {timelineSteps.map((step, index) => (
-            <motion.div key={index} custom={index} variants={itemVariants} className="mb-8 flex justify-center md:justify-normal items-center w-full">
+            <motion.div key={index} variants={itemVariants} className="mb-8 flex justify-center md:justify-normal items-center w-full">
               <div className={`flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center w-full`}>
                 <div className="hidden md:flex flex-1"></div>
                 <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 bg-background border-2 border-primary rounded-full h-8 w-8 z-10 flex items-center justify-center font-bold">{index + 1}</div>
