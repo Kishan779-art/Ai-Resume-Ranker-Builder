@@ -1,5 +1,7 @@
+
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -33,6 +35,7 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const { toast } = useToast();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [typedTitle, setTypedTitle] = useState('');
@@ -47,13 +50,14 @@ export function LoginForm() {
     }
   }, [typedTitle]);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        router.push('/');
+      }, 2500); // Wait for the success animation/message to show
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess, router]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -65,8 +69,6 @@ export function LoginForm() {
         title: 'Login Successful!',
         description: `Welcome back, ${values.email}`,
       });
-      // Here you would typically redirect the user
-      // router.push('/dashboard');
     }, 2000);
   }
 
@@ -159,19 +161,13 @@ export function LoginForm() {
                         type="submit"
                         disabled={isLoading}
                         className="w-full h-12 text-lg holographic-button"
-                        asChild
                     >
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            {isLoading ? (
-                            <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                            ) : (
-                            <LogIn className="mr-2 h-6 w-6" />
-                            )}
-                            Login
-                        </motion.button>
+                        {isLoading ? (
+                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                        ) : (
+                        <LogIn className="mr-2 h-6 w-6" />
+                        )}
+                        Login
                     </Button>
                 </form>
                 </Form>
