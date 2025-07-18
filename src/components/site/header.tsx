@@ -10,7 +10,6 @@ export function Header() {
     { name: 'Builder', href: '/builder' },
     { name: 'Templates', href: '/templates' },
     { name: 'Pricing', href: '/pricing' },
-    { name: 'Team', href: '/team' },
   ];
 
   return (

@@ -9,7 +9,6 @@ import {
   Wand2,
   LayoutGrid,
   CreditCard,
-  Users,
   BarChart,
 } from 'lucide-react';
 
@@ -50,13 +49,6 @@ export default function Home() {
       description:
         'Find the perfect plan that fits your needs, with monthly and yearly options available.',
       link: '/pricing',
-    },
-    {
-      icon: <Users className="w-8 h-8 text-primary" />,
-      title: 'Meet the Team',
-      description:
-        'Learn about the talented individuals behind Bolt Resume AI and our mission to help you succeed.',
-      link: '/team',
     },
     {
       icon: <Rocket className="w-8 h-8 text-primary" />,
