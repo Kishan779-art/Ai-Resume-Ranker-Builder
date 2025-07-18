@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,16 +11,10 @@ import {
   LayoutGrid,
   CreditCard,
   BarChart,
+  MoveRight,
 } from 'lucide-react';
 
 export default function Home() {
-  const [offsetY, setOffsetY] = useState(0);
-  const handleScroll = () => setOffsetY(window.pageYOffset);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const features = [
     {
@@ -58,63 +52,92 @@ export default function Home() {
         'Our tools are designed to give you a competitive edge and accelerate your job search.',
       link: '/builder',
     },
+     {
+      icon: <MoveRight className="w-8 h-8 text-primary" />,
+      title: 'And Much More',
+      description: 'Explore all our features and see how we can help you land your dream job.',
+      link: '/about'
+    }
   ];
 
+  const FADE_IN_ANIMATION_VARIANTS = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="w-full text-center">
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden animated-gradient-bg">
-        <div
+    <div className="flex flex-col items-center">
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden animated-gradient-bg py-20 md:py-0">
+         <div
           className="absolute inset-0 bg-grid opacity-20"
           style={{
             maskImage:
               'radial-gradient(ellipse at center, black 20%, transparent 70%)',
           }}
         ></div>
-        <div
-          className="absolute inset-0"
-          style={{ transform: `translateY(${offsetY * 0.5}px)` }}
-        >
-          <div className="container mx-auto px-4 z-10 relative">
-            <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-400 leading-tight">
+        <div className="container mx-auto px-4 z-10">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.2 }}
+            className="text-center"
+          >
+            <motion.h1 
+              variants={FADE_IN_ANIMATION_VARIANTS}
+              className="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-400 leading-tight"
+            >
               Build Your Future, Faster.
-            </h1>
-            <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-muted-foreground">
+            </motion.h1>
+            <motion.p 
+              variants={FADE_IN_ANIMATION_VARIANTS}
+              className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-muted-foreground"
+            >
               Harness the power of AI to create a resume that lands you interviews.
               Bolt Resume AI analyzes, builds, and perfects your application materials.
-            </p>
-            <div className="mt-8 flex justify-center gap-4">
-              <Button asChild size="lg" className="holographic-button">
+            </motion.p>
+            <motion.div 
+              variants={FADE_IN_ANIMATION_VARIANTS}
+              className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4"
+            >
+              <Button asChild size="lg" className="holographic-button w-full sm:w-auto">
                 <Link href="/builder">
                   Start Building
                   <Wand2 className="ml-2" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="secondary">
+              <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
                 <Link href="/ranker">
                   Rank My Resume
                   <BarChart className="ml-2" />
                 </Link>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="py-20 md:py-32">
+      <section className="py-20 md:py-32 w-full">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold font-headline tracking-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
               Why Choose Bolt Resume AI?
             </h2>
-            <p className="mt-2 text-lg text-muted-foreground">
-              Everything you need to get the job of your dreams.
+            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+              A comprehensive suite of tools designed to give you a competitive edge and accelerate your job search. Everything you need to land the job of your dreams.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
             {features.map((feature, index) => (
-              <Card
+               <motion.div
                 key={index}
-                className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2"
+                variants={FADE_IN_ANIMATION_VARIANTS}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+              <Card
+                className="bg-card/50 backdrop-blur-sm border-border/20 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
               >
                 <CardHeader className="flex flex-row items-center gap-4">
                   {feature.icon}
@@ -128,6 +151,7 @@ export default function Home() {
                   </p>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
           </div>
         </div>
