@@ -1,38 +1,37 @@
 import Link from 'next/link';
-import { Bolt } from 'lucide-react';
+import { Bolt, Github, Twitter, Linkedin } from 'lucide-react';
 
 export function Footer() {
-  const navItems = [
-    { name: 'Ranker', href: '/ranker' },
-    { name: 'Builder', href: '/builder' },
-    { name: 'Templates', href: '/templates' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'Team', href: '/team' },
+  const socialLinks = [
+    { name: 'GitHub', href: '#', icon: <Github className="h-5 w-5" /> },
+    { name: 'Twitter', href: '#', icon: <Twitter className="h-5 w-5" /> },
+    { name: 'LinkedIn', href: '#', icon: <Linkedin className="h-5 w-5" /> },
   ];
 
   return (
     <footer className="border-t border-border/20 bg-background/50 backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <Bolt className="text-primary h-6 w-6" />
-            <span className="font-bold text-lg font-headline">Bolt Resume AI</span>
-          </div>
-          <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Bolt className="text-primary h-5 w-5" />
+                <span>Bolt Resume AI</span>
+            </div>
+            <div className="flex gap-4">
+                {socialLinks.map((item) => (
+                <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                    aria-label={item.name}
+                >
+                    {item.icon}
+                </Link>
+                ))}
+            </div>
         </div>
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Bolt Resume AI. All rights are owned by kishan patel.</p>
-          <p>Designed and developed by kishan patel.</p>
+        <div className="mt-6 pt-6 border-t border-border/20 text-center text-xs text-muted-foreground">
+          <p>&copy; {new Date().getFullYear()} Bolt Resume AI. All rights reserved.</p>
+          <p>Designed and developed by Kishan Patel.</p>
         </div>
       </div>
     </footer>
