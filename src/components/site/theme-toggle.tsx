@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  // Default to light and let the effect run to set the correct theme
+  const [theme, setTheme] = useState('light'); 
 
   useEffect(() => {
     setMounted(true);
@@ -14,7 +15,6 @@ export function ThemeToggle() {
     if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
       setTheme(storedTheme);
     } else {
-        // Set default based on system preference if available
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         setTheme(systemTheme);
     }
@@ -34,6 +34,7 @@ export function ThemeToggle() {
   }, [theme, mounted]);
 
   if (!mounted) {
+    // Render a disabled button placeholder to prevent layout shift
     return <Button variant="ghost" size="icon" disabled className="h-9 w-9" />;
   }
 
