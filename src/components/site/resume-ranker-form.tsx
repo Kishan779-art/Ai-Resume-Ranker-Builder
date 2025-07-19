@@ -75,23 +75,24 @@ export function ResumeRankerForm() {
             body: formData,
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            throw new Error('Failed to parse PDF');
+            throw new Error(data.error || 'Failed to parse PDF');
         }
 
-        const data = await response.json();
         form.setValue('resumeText', data.text, { shouldValidate: true });
         toast({
             title: 'Resume Uploaded',
             description: 'The resume content has been extracted and placed in the text area.',
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error parsing PDF:', error);
         toast({
             variant: 'destructive',
             title: 'Parsing Error',
-            description: 'Could not extract text from the PDF. Please paste it manually.',
+            description: error.message || 'Could not extract text from the PDF. Please paste it manually.',
         });
     } finally {
         setIsParsing(false);

@@ -19,15 +19,15 @@ export async function POST(req: NextRequest) {
     const data = await pdf(fileBuffer);
     
     if (!data.text) {
-        return NextResponse.json({ error: 'Could not extract text from this PDF.' }, { status: 500 });
+        return NextResponse.json({ error: 'Could not extract text from this PDF. It might be an image-only PDF.' }, { status: 500 });
     }
     
     return NextResponse.json({ text: data.text });
   } catch (error) {
     console.error('PDF parsing error:', error);
-    let errorMessage = 'Failed to parse PDF.';
+    let errorMessage = 'An unexpected error occurred while parsing the PDF.';
     if (error instanceof Error) {
-        errorMessage = error.message;
+        errorMessage = `Failed to parse PDF: ${error.message}`;
     }
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
