@@ -97,7 +97,7 @@ export default function AboutPage() {
             <CardContent className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
               <motion.div whileHover={{ scale: 1.1, rotate: 5 }}>
                 <Avatar className="h-24 w-24 border-2 border-primary shadow-lg">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="Kishan Patel" />
+                  <AvatarImage src="https://github.com/Kishan779-art.png" alt="Kishan Patel" />
                   <AvatarFallback>KP</AvatarFallback>
                 </Avatar>
               </motion.div>

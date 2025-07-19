@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function Footer() {
   const socialLinks = [
-    { name: 'GitHub', href: '#', icon: <Github className="h-5 w-5" /> },
+    { name: 'GitHub', href: 'https://github.com/Kishan779-art/', icon: <Github className="h-5 w-5" /> },
     { name: 'Twitter', href: '#', icon: <Twitter className="h-5 w-5" /> },
     { name: 'LinkedIn', href: '#', icon: <Linkedin className="h-5 w-5" /> },
   ];
@@ -62,6 +62,8 @@ export function Footer() {
                   href={item.href}
                   className="text-muted-foreground hover:text-primary transition-colors"
                   aria-label={item.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                    <Button variant="ghost" size="icon" className="rounded-full">
                      {item.icon}
