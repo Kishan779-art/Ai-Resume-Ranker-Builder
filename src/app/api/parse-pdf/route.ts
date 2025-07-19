@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
     const fileBuffer = await file.arrayBuffer();
     const data = await pdf(fileBuffer);
     
-    if (!data.text) {
-        return NextResponse.json({ error: 'Could not extract text from this PDF. It might be an image-only PDF.' }, { status: 500 });
+    if (!data.text || data.text.trim() === '') {
+        return NextResponse.json({ error: 'Could not extract text from this PDF. It might be an image-only PDF or empty.' }, { status: 400 });
     }
     
     return NextResponse.json({ text: data.text });
@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error) {
         errorMessage = `Failed to parse PDF: ${error.message}`;
     }
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+     // Ensure a generic server error message for unexpected failures.
+    return NextResponse.json({ error: 'An internal server error occurred during PDF parsing.' }, { status: 500 });
   }
 }
