@@ -79,7 +79,7 @@ export default function DashboardPage() {
         />
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <motion.div variants={containerVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
          <motion.div variants={itemVariants}>
           <Card className="bg-card/50 backdrop-blur-sm border-border/20 neon-glow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -116,7 +116,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
+      </motion.div>
 
       <motion.div className="grid grid-cols-1 lg:grid-cols-5 gap-8" variants={containerVariants}>
         <motion.div className="lg:col-span-3" variants={itemVariants}>
