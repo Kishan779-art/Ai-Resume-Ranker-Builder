@@ -1,3 +1,4 @@
+
 // src/ai/flows/rank-resume.ts
 'use server';
 /**
@@ -32,20 +33,18 @@ const rankResumeAgainstJobDescriptionPrompt = ai.definePrompt({
   name: 'rankResumeAgainstJobDescriptionPrompt',
   input: {schema: RankResumeAgainstJobDescriptionInputSchema},
   output: {schema: RankResumeAgainstJobDescriptionOutputSchema},
-  prompt: `You are an expert resume reviewer. Given a resume and a job description, you will provide a match score (0-100), a summary of the resume's strengths and weaknesses, and specific suggestions for improvement.
+  prompt: `You are an expert resume reviewer. Your task is to analyze the provided resume and job description.
+  
+  Based on your analysis, you will:
+  1.  Provide a "matchScore" from 0 to 100, where 100 is a perfect match.
+  2.  Write a "summary" explaining the key strengths and weaknesses of the resume in relation to the job.
+  3.  Provide "areasForImprovement" with specific, actionable advice on how to make the resume a better fit for the role.
 
 Resume:
 {{{resumeText}}}
 
 Job Description:
 {{{jobDescriptionText}}}
-
-Respond in a structured JSON format:
-{
-  "matchScore": number,
-  "summary": string,
-  "areasForImprovement": string
-}
 `,
 });
 

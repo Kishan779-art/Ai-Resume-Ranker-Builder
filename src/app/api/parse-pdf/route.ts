@@ -11,12 +11,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded.' }, { status: 400 });
     }
 
+    if (file.type !== 'application/pdf') {
+        return NextResponse.json({ error: 'Invalid file type. Please upload a PDF.' }, { status: 400 });
+    }
+
     const fileBuffer = await file.arrayBuffer();
     const data = await pdf(fileBuffer);
+    
+    if (!data.text) {
+        return NextResponse.json({ error: 'Could not extract text from this PDF.' }, { status: 500 });
+    }
     
     return NextResponse.json({ text: data.text });
   } catch (error) {
     console.error('PDF parsing error:', error);
-    return NextResponse.json({ error: 'Failed to parse PDF.' }, { status: 500 });
+    let errorMessage = 'Failed to parse PDF.';
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
