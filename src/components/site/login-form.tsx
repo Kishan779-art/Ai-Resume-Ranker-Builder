@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Loader2, LogIn } from 'lucide-react';
+import { Loader2, LogIn, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
@@ -78,21 +78,53 @@ export function LoginForm() {
       login(values.email);
       toast({
         title: 'Login Successful!',
-        description: `Welcome back, ${values.email}`,
+        description: `Welcome back, ${values.email.split('@')[0]}`,
       });
     }, 2000);
   }
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-    exit: { opacity: 0, scale: 1.2, transition: { duration: 0.5, ease: 'easeIn' } },
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5, ease: 'easeIn' } },
   };
 
-  const successVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+      },
+    },
   };
+  
+  const successVariants = {
+    hidden: { opacity: 0, scale: 0.5, rotateY: 90 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      rotateY: 0, 
+      transition: { 
+        type: 'spring',
+        damping: 15,
+        stiffness: 400
+      } 
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.5,
+      transition: { duration: 0.3 }
+    }
+  };
+
 
   return (
     <AnimatePresence mode="wait">
@@ -102,10 +134,18 @@ export function LoginForm() {
           variants={successVariants}
           initial="hidden"
           animate="visible"
+          exit="exit"
           className="text-center"
         >
-          <Card className="bg-card/50 backdrop-blur-sm border-border/20 p-8 neon-glow">
-            <CardHeader>
+          <Card className="bg-card/50 backdrop-blur-sm border-border/20 p-8 neon-glow flex flex-col items-center">
+            <motion.div 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, rotate: 360 }}
+              transition={{ delay: 0.2, type: 'spring' }}
+            >
+              <CheckCircle className="h-20 w-20 text-green-400 mb-4"/>
+            </motion.div>
+            <CardHeader className="p-0">
               <CardTitle className="text-3xl font-headline text-green-400">
                 Access Granted
               </CardTitle>
@@ -116,7 +156,7 @@ export function LoginForm() {
       ) : (
         <motion.div
             key="form"
-            variants={cardVariants}
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -125,7 +165,13 @@ export function LoginForm() {
             <CardHeader className="text-center">
                 <CardTitle className="text-3xl font-headline text-primary h-10">
                 {typedTitle}
-                <span className="animate-ping">|</span>
+                <motion.span 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }}
+                >
+                  |
+                </motion.span>
                 </CardTitle>
                 <CardDescription>
                 Enter your credentials to access your account
@@ -133,63 +179,75 @@ export function LoginForm() {
             </CardHeader>
             <CardContent>
                 <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <motion.form 
+                  onSubmit={form.handleSubmit(onSubmit)} 
+                  className="space-y-6"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                    <motion.div variants={itemVariants}>
+                      <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormControl>
+                              <Input
+                              type="email"
+                              placeholder="Email Address"
+                              className="h-12 text-lg focus:ring-primary/80 focus:ring-offset-0 focus:border-primary/50 transition-shadow duration-300 shadow-inner bg-background/50"
+                              {...field}
+                              />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
                     <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormControl>
-                            <Input
-                            type="email"
-                            placeholder="Email Address"
-                            className="h-12 text-lg focus:ring-primary/80 focus:ring-offset-0 focus:border-primary/50 transition-shadow duration-300 shadow-inner bg-background/50"
-                            {...field}
-                            />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormControl>
-                            <Input
-                            type="password"
-                            placeholder="Password"
-                            className="h-12 text-lg focus:ring-primary/80 focus:ring-offset-0 focus:border-primary/50 transition-shadow duration-300 shadow-inner bg-background/50"
-                            {...field}
-                            />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <Button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full h-12 text-lg holographic-button"
-                    >
-                        {isLoading ? (
-                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                        ) : (
-                        <LogIn className="mr-2 h-6 w-6" />
-                        )}
-                        Login
-                    </Button>
-                </form>
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormControl>
+                              <Input
+                              type="password"
+                              placeholder="Password"
+                              className="h-12 text-lg focus:ring-primary/80 focus:ring-offset-0 focus:border-primary/50 transition-shadow duration-300 shadow-inner bg-background/50"
+                              {...field}
+                              />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                      <Button
+                          type="submit"
+                          disabled={isLoading}
+                          className="w-full h-12 text-lg holographic-button"
+                      >
+                          {isLoading ? (
+                          <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                          ) : (
+                          <LogIn className="mr-2 h-6 w-6" />
+                          )}
+                          Login
+                      </Button>
+                    </motion.div>
+                </motion.form>
                 </Form>
-                <div className="mt-6 text-center text-sm">
+                <motion.div className="mt-6 text-center text-sm" variants={itemVariants}>
                 <Link
                     href="#"
                     className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors"
                 >
                     Forgot Password?
                 </Link>
-                </div>
+                </motion.div>
             </CardContent>
             </Card>
         </motion.div>
@@ -197,5 +255,3 @@ export function LoginForm() {
     </AnimatePresence>
   );
 }
-
-    
