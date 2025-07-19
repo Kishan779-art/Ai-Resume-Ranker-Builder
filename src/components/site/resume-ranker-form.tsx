@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -19,10 +19,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { rankResumeAction } from '@/lib/actions';
 import type { RankResumeAgainstJobDescriptionOutput } from '@/ai/flows/rank-resume';
-import { Loader2, BarChart, FileText, Briefcase, Sparkles, Lightbulb } from 'lucide-react';
+import { Loader2, BarChart, FileText, Briefcase, Sparkles, Lightbulb, Upload } from 'lucide-react';
 import { ScoreGauge } from './score-gauge';
 import { Skeleton } from '../ui/skeleton';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Input } from '../ui/input';
 
 const formSchema = z.object({
   resumeText: z
@@ -38,8 +39,10 @@ const formSchema = z.object({
 export function ResumeRankerForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isParsing, setIsParsing] = useState(false);
   const [result, setResult] =
     useState<RankResumeAgainstJobDescriptionOutput | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,6 +51,57 @@ export function ResumeRankerForm() {
       jobDescriptionText: '',
     },
   });
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+        toast({
+            variant: 'destructive',
+            title: 'Invalid File Type',
+            description: 'Please upload a PDF file.',
+        });
+        return;
+    }
+    
+    setIsParsing(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/api/parse-pdf', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to parse PDF');
+        }
+
+        const data = await response.json();
+        form.setValue('resumeText', data.text, { shouldValidate: true });
+        toast({
+            title: 'Resume Uploaded',
+            description: 'The resume content has been extracted and placed in the text area.',
+        });
+
+    } catch (error) {
+        console.error('Error parsing PDF:', error);
+        toast({
+            variant: 'destructive',
+            title: 'Parsing Error',
+            description: 'Could not extract text from the PDF. Please paste it manually.',
+        });
+    } finally {
+        setIsParsing(false);
+        // Reset file input
+        if(fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }
+  };
+
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -81,30 +135,56 @@ export function ResumeRankerForm() {
             Analysis Engine
           </CardTitle>
           <CardDescription>
-            Paste your resume and the target job description below. Our AI will do the rest.
+            Paste your resume and the target job description below. Or, upload a resume PDF.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
-                 <FormField
-                  control={form.control}
-                  name="resumeText"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2"><FileText className="text-primary/80"/> Your Resume</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Paste the full text of your resume here..."
-                          className="min-h-[300px] bg-background/50 shadow-inner"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                 <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="resumeText"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center justify-between">
+                            <span className="flex items-center gap-2"><FileText className="text-primary/80"/> Your Resume</span>
+                             <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={isParsing}
+                              >
+                                {isParsing ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <Upload className="mr-2 h-4 w-4" />
+                                )}
+                                Upload PDF
+                              </Button>
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Paste the full text of your resume here, or upload a PDF."
+                              className="min-h-[300px] bg-background/50 shadow-inner"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Input
+                      ref={fileInputRef}
+                      type="file"
+                      className="hidden"
+                      accept=".pdf"
+                      onChange={handleFileChange}
+                      disabled={isParsing}
+                    />
+                 </div>
                 <FormField
                   control={form.control}
                   name="jobDescriptionText"
@@ -123,7 +203,7 @@ export function ResumeRankerForm() {
                   )}
                 />
               </div>
-              <Button type="submit" disabled={isLoading} size="lg" className="w-full holographic-button">
+              <Button type="submit" disabled={isLoading || isParsing} size="lg" className="w-full holographic-button">
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
